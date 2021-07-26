@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@1.7.6/dist/css/tom-select.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@1.7.6/dist/js/tom-select.complete.min.js"></script>
+    <title>les petits plats</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <img src="../src/img/logo.png" />
+            </div>
+            <div class="bloc-search">
+                <input id="searchBanner" type="text" placeholder="Rechercher un ingredient, appareil, ustensible ou une recette" class="search" />
+                <button class="logo-search"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <div class="select">
+                <div class="dropdown dropdown-ingredient">
+                    <div class="p-absolute">
+                        <input id="search" class="search-ingredient" type="text" placeholder="ingredient"/>
+                    </div>
+                    <div id="list-ingredient" class="dropdown-content">
+                        
+                    </div>
+                </div>
+                <div class="dropdown dropdown-appareil">
+                    <div class="p-absolute">
+                        <input id="search" class="search-appareil" type="text" placeholder="appareil"/>
+                    </div>
+                    <div id="list-appareil" class="dropdown-content">
+                        
+                    </div>
+                </div>
+                <div class="dropdown dropdown-ustensils">
+                    <div class="p-absolute">
+                        <input id="search" class="search-ustensils" type="text" placeholder="ustensils"/>
+                    </div>
+                    <div id="list-ustensils" class="dropdown-content">
+                        
+                    </div>
+                </div>
+            </div>
+            <div id="les_recettes">
+
+            </div>
+        </div>
+    </main>
+</body>
+<script type="text/javascript" src="../dist/js/index.bundle.js"></script>
+</html>

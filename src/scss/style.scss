@@ -1,0 +1,188 @@
+* {
+  outline: 0;
+}
+
+.p-absolute {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+  width: 70%;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    .logo {
+      display: flex;
+      justify-content: center;
+      img {
+        width: 30%;
+        height: 100%;
+      }
+    }
+    .bloc-search {
+      display: flex;
+      margin-top: 20px;
+      .search {
+        height: 40px;
+        background-color: rgb(231, 231, 231);
+        font-size: 15px;
+        padding-left: 15px;
+        width: 100%;
+      }
+      .logo-search {
+        position: absolute;
+        right: 0;
+        padding: 12px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+      }
+    }
+  }
+  .select {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 30%;
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      color: white;
+      width: 30%;
+      height: 45px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 1rem;
+      #search {
+        width: 80px;
+        height: 45px;
+        border-radius: 1rem;
+        border: none;
+        padding-left: 10px;
+        position: absolute;
+      }
+    }
+    
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f9f9f9;
+      min-width: 160px;
+      padding: 12px 16px;
+      z-index: 1;
+      margin-top: 35px;
+    }
+    
+    .dropdown:hover{
+      display: block;
+      text-align: center;
+      #search {
+        width: 570px;
+      }
+        .dropdown-content {
+          display: block;
+          text-align: left;
+          li:hover {
+            cursor: pointer;
+          }
+      }
+    }
+  }
+  #les_recettes {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    .blocrecette {
+      width: 30%;
+      height: 400px;
+      .recetteImg {
+        background: rgb(192, 183, 183);
+        height: 150px;
+      }
+      .recetteInfo {
+        background: rgb(228, 228, 228);
+        height: 40%;
+        padding: 20px;
+        .header {
+          display: flex;
+          justify-content: space-between;
+          .time {
+            display: flex;
+            flex-direction: row-reverse;
+            i {
+              margin-right: 10px;
+            }
+          }
+        }
+        p {
+          margin: 0;
+        }
+        .blocInfo {
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: space-between;
+          margin-top: 10px;
+          .description {
+            height: 80px;
+            width: 50%;
+            overflow: scroll;
+          }
+          p {
+            margin: 0;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#list-ingredient, #list-appareil, #list-ustensils {
+  color: white;
+  width: 550px;
+    ul {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    list-style: none;
+    li {
+      width: 100%;
+    }
+  }
+}
+
+#list-ingredient, .dropdown-ingredient, .search-ingredient {
+  background-color: rgb(68, 131, 239);
+  color: white;
+}
+
+#list-appareil, .dropdown-appareil, .search-appareil {
+  background-color: rgb(133, 214, 168);
+  color: white;
+}
+
+#list-ustensils, .dropdown-ustensils, .search-ustensils {
+  background-color: rgb(221, 108, 91);
+  color: white;
+}
