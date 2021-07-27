@@ -3,6 +3,14 @@ import recettes from "../../recette.json"
 
 const Recettes = document.getElementById('les_recettes');
 
+let listeIngredient = [];
+let listeUstensils = [];
+let listAppareil = [];
+
+let dropdownIngredient = document.getElementById("list-ingredient");
+let dropdownUstensils = document.getElementById("list-ustensils");
+let dropdownAppareils = document.getElementById("list-appareil");
+
 function affichageRecette(recettes) {
     document.getElementById("les_recettes").innerHTML = "";
     recettes.forEach(recette => {
@@ -60,17 +68,10 @@ function affichageRecette(recettes) {
 affichageRecette(recettes)
 
 function dropdownRecette(recettes) {
-    document.querySelectorAll(".dropdown-content").innerHTML = "";
-    let listeIngredient = [];
-    let listeUstensils = [];
-    let listAppareil = [];
-    let dropdownIngredient = document.getElementById("list-ingredient");
-    let dropdownUstensils = document.getElementById("list-ustensils");
-    let dropdownAppareils = document.getElementById("list-appareil");
     recettes.forEach(recette => {
         recette.ingredients.forEach(ingredient => {
-            if(!listeIngredient.includes(ingredient.ingredient)) {
-                listeIngredient.push(ingredient.ingredient);
+            if(!listeIngredient.includes(ingredient.ingredient.toLowerCase())) {
+                listeIngredient.push(ingredient.ingredient.toLowerCase());
             }
         })
         recette.ustensils.forEach(ustensil => {
@@ -89,30 +90,62 @@ function dropdownRecette(recettes) {
 
 dropdownRecette(recettes)
 
-// document.querySelector(".search-ingredient").addEventListener('keyup', (e) => {
-//     searchDropdown(document.querySelector(".search").value, recettes);
-// })
-
-// function searchDropdown(value, recettes) {
-//     const result = recettes.forEach(recette => {
-//         recette.ingredients.forEach(ingredient => {
-//             console.log(ingredient)
-//             ingredient.filter(ingredient => console.log(ingredient.ingredient.toLowerCase().includes(value.toLowerCase())))})
-//     })
-
-//     // console.log(result)
-//     // dropdownRecette(result)
-// }
-
-
-document.getElementById("searchBanner").addEventListener('keyup', (e) => {
-    searchBanner(document.getElementById("searchBanner").value, recettes);
+document.querySelector(".search-ingredient").addEventListener('keyup', (e) => {
+    searchDropdown(document.querySelector(".search-ingredient").value, "ingredient");
+    console.log(document.querySelector(".search-ingredient").value)
 })
 
-function searchBanner(value, recettes) {
-    const result = recettes.filter(recette => recette.name.toLowerCase().includes(value.toLowerCase()))
+function searchDropdown(value, type) {
+    const result = [];
+    if(type === "ingredient") {
+        document.getElementById("list-ingredient").innerHTML = "";
+        for (const ingredient of listeIngredient) {
+            if(ingredient.toLowerCase().includes(value.toLowerCase())) {
+                result.push(ingredient);
+            }
+        }
+        dropdown(result, dropdownIngredient);
+    }
 
-    console.log(result)
+    // console.log(result)
+    // dropdownRecette(result)
+}
+
+const searchBannerElement = document.getElementById("searchBanner");
+
+searchBannerElement.addEventListener('keyup', (e) => {
+    if(searchBannerElement.value.length >= 3) {
+        searchBanner(document.getElementById("searchBanner").value, recettes);
+    }else if(searchBannerElement.value.length < 3) {
+        affichageRecette(recettes)
+    }
+})
+
+console.log(recettes);
+
+function searchBanner(value, recettes) {
+    // let result = recettes.filter(recette => recette.name.toLowerCase().includes(value.toLowerCase()))
+    let result = [];
+    for (const recette of recettes) {
+        if(recette.name.toLowerCase().includes(value.toLowerCase())) {
+            result.push(recette);
+        }
+        if(recette.appliance.toLowerCase().includes(value.toLowerCase())) {
+            result.push(recette);
+        }
+        for (const ingredient of recette.ingredients) {
+            if(ingredient.ingredient.toLowerCase().includes(value.toLowerCase())) {
+                result.push(recette);
+            }
+        }
+    
+        for (const ustensil of recette.ustensils) {
+            if(ustensil.toLowerCase().includes(value.toLowerCase())) {
+                result.push(recette);
+            }
+        }
+    }
+
     affichageRecette(result)
 }
 
