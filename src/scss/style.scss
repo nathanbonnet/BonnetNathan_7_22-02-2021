@@ -178,30 +178,33 @@ body {
   }
 }
 
-#list-ingredient, .dropdown-ingredient, .search-ingredient {
+#list-ingredient, .dropdown-ingredient, .search-ingredient, .ingredient {
   background-color: rgb(68, 131, 239);
   color: white;
 }
 
-#list-appareil, .dropdown-appareil, .search-appareil {
+#list-appareil, .dropdown-appareil, .search-appareil, .appareil {
   background-color: rgb(133, 214, 168);
   color: white;
 }
 
-#list-ustensils, .dropdown-ustensils, .search-ustensils {
+#list-ustensils, .dropdown-ustensils, .search-ustensils, .ustensil {
   background-color: rgb(221, 108, 91);
   color: white;
 }
 
-
-.bloc-tag {
-  margin-top: 10px;
-  width: 7%;
-  height: 30px;
+#tag-bloc {
   display: flex;
-  justify-content: space-around;
-  align-items: center;
-  border-radius: 5px;
-  background-color: rgb(68, 131, 239);
-  color: white;
+  flex-wrap: wrap;
+  .bloc-tag {
+    margin-top: 10px;
+    margin-right: 20px;
+    width: 7%;
+    height: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 5px;
+    color: white;
+  }
 }
