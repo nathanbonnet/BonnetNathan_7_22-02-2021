@@ -181,7 +181,6 @@ function searchBanner(value, recettes) {
             }
         }
     }
-
     affichageRecette(result)
 }
 
@@ -198,30 +197,26 @@ function dropdown(list, dropdown) {
         
         li.innerHTML = list[i].toLowerCase();
         ul.appendChild(li);
-        let tagselect = [];
         li.addEventListener("click", (e) => {
-            tagselect.push(e.target.innerHTML)
-            if(tagselect.length = 2) {
-                tagselect.pop();
-            }
+            const value = e.target.innerHTML;
             if(dropdown.id === "list-ingredient") {
-                if(!tagIngredientsSelected.includes(e.target.innerHTML)) {
-                    tagIngredientsSelected.push(e.target.innerHTML);
+                if(!tagIngredientsSelected.includes(value)) {
+                    tagIngredientsSelected.push(value);
+                    tagIngredients(value);
                 }
-                tagIngredients(tagselect);
             }
             if(dropdown.id === "list-appareil") {
-                if(!tagAppareilSelected.includes(e.target.innerHTML)) {
-                    tagAppareilSelected.push(e.target.innerHTML);
+                if(!tagAppareilSelected.includes(value)) {
+                    tagAppareilSelected.push(value);
+                    tagAppareil(value)
                 }
-                tagAppareil(tagselect)
             }
 
             if(dropdown.id === "list-ustensils") {
-                if(!tagUstensilSelected.includes(e.target.innerHTML)) {
-                    tagUstensilSelected.push(e.target.innerHTML);
+                if(!tagUstensilSelected.includes(value)) {
+                    tagUstensilSelected.push(value);
+                    tagUstensils(value)
                 }
-                tagUstensils(tagselect)
             }
 
             refreshTag()
@@ -244,7 +239,7 @@ function tagIngredients(value) {
 
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
-        let position = tagIngredientsSelected.indexOf(value.join());
+        let position = tagIngredientsSelected.indexOf(value);
         tagIngredientsSelected.splice(position)
         refreshTag()
     })
@@ -265,7 +260,7 @@ function tagAppareil(value) {
 
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
-        let position = tagAppareilSelected.indexOf(value.join());
+        let position = tagAppareilSelected.indexOf(value);
         tagAppareilSelected.splice(position)
         refreshTag()
     })
@@ -286,7 +281,7 @@ function tagUstensils(value) {
 
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
-        let position = tagUstensilSelected.indexOf(value.join());
+        let position = tagUstensilSelected.indexOf(value);
         tagUstensilSelected.splice(position)
         refreshTag()
     })
