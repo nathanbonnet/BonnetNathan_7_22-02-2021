@@ -17,6 +17,7 @@ let dropdownIngredient = document.getElementById("list-ingredient");
 let dropdownUstensils = document.getElementById("list-ustensils");
 let dropdownAppareils = document.getElementById("list-appareil");
 
+// creation de chaque bloc recette
 function affichageRecette(recettes) {
     document.getElementById("les_recettes").innerHTML = "";
     recettes.forEach(recette => {
@@ -73,7 +74,23 @@ function affichageRecette(recettes) {
 
 affichageRecette(recettes)
 
+// declenche la fonction searchBanner a partir de 3 lettres
+const searchBannerElement = document.getElementById("searchBanner");
+
+searchBannerElement.addEventListener('keyup', (e) => {
+    if(searchBannerElement.value.length >= 3) {
+        searchBanner(document.getElementById("searchBanner").value, recettes);
+    }else if(searchBannerElement.value.length < 3) {
+        affichageRecette(recettes)
+    }
+})
+
+// permet d'ajouter les elements si il ne sont pas deja dans le dropdown
 function dropdownRecette(recettes) {
+    console.log(recettes, "test")
+    listeIngredient = [];
+    listeUstensils = [];
+    listAppareil = [];
     recettes.forEach(recette => {
         recette.ingredients.forEach(ingredient => {
             if(!listeIngredient.includes(ingredient.ingredient.toLowerCase())) {
@@ -98,19 +115,17 @@ dropdownRecette(recettes)
 
 document.querySelector(".search-ingredient").addEventListener('keyup', (e) => {
     searchDropdown(document.querySelector(".search-ingredient").value, "ingredient");
-    console.log(document.querySelector(".search-ingredient").value)
 })
 
 document.querySelector(".search-appareil").addEventListener('keyup', (e) => {
     searchDropdown(document.querySelector(".search-appareil").value, "appareil");
-    console.log(document.querySelector(".search-appareil").value)
 })
 
 document.querySelector(".search-ustensils").addEventListener('keyup', (e) => {
     searchDropdown(document.querySelector(".search-ustensils").value, "ustensils");
-    console.log(document.querySelector(".search-ustensils").value)
 })
 
+// actualise le dropdown et les recettes en fonction de la valeur de l'input de recherche du dropdown
 function searchDropdown(value, type) {
     const result = [];
     if(type === "ingredient") {
@@ -142,25 +157,10 @@ function searchDropdown(value, type) {
         }
         dropdown(result, dropdownUstensils);
     }
-
-    // console.log(result)
-    // dropdownRecette(result)
 }
 
-const searchBannerElement = document.getElementById("searchBanner");
-
-searchBannerElement.addEventListener('keyup', (e) => {
-    if(searchBannerElement.value.length >= 3) {
-        searchBanner(document.getElementById("searchBanner").value, recettes);
-    }else if(searchBannerElement.value.length < 3) {
-        affichageRecette(recettes)
-    }
-})
-
-console.log(recettes);
-
+// permet de verifier si la valeur est egal a une des recettes
 function searchBanner(value, recettes) {
-    // let result = recettes.filter(recette => recette.name.toLowerCase().includes(value.toLowerCase()))
     let result = [];
     for (const recette of recettes) {
         if(recette.name.toLowerCase().includes(value.toLowerCase())) {
@@ -184,9 +184,9 @@ function searchBanner(value, recettes) {
     affichageRecette(result)
 }
 
-
+// creation de la liste pour chaque dropdown et au clic sur un li la valeur est ajouté dans un tableau sauf si elle y est deja pour ensuite apl la fonction pour créer les tags avec la valeur presente dans ce tableau
 function dropdown(list, dropdown) {
-    console.log(list, dropdown.id);
+    dropdown.innerHTML = "";
     let ul;
     for(let i = 0; i < list.length; i++) {
         if(i%3 === 0) {
@@ -224,6 +224,7 @@ function dropdown(list, dropdown) {
     }
 }
 
+// creation des tags par couleur selon le dropdown
 function tagIngredients(value) {
     const bloc = document.createElement("div");
     const tag = document.createElement("p");
@@ -287,7 +288,7 @@ function tagUstensils(value) {
     })
 }
 
-
+// permet d'actualiser les recettes selon les tags selectioné
 function refreshTag() {
     const data = [];
     for (let j = 0; j < recettes.length; j++) {
@@ -320,6 +321,6 @@ function refreshTag() {
             data.push(recettes[j]);
         }
     }
-    // console.log(recettes, "toto", dropdown.id)
     affichageRecette(data)
+    dropdownRecette(data);
 }
