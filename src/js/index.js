@@ -9,6 +9,9 @@ const tagIngredientsSelected = [];
 const tagAppareilSelected = [];
 const tagUstensilSelected = [];
 
+let resultBanner = [];
+let resultTag = [];
+
 let listeIngredient = [];
 let listeUstensils = [];
 let listAppareil = [];
@@ -79,9 +82,12 @@ const searchBannerElement = document.getElementById("searchBanner");
 
 searchBannerElement.addEventListener('keyup', (e) => {
     if(searchBannerElement.value.length >= 3) {
-        searchBanner(document.getElementById("searchBanner").value, recettes);
+        const recettesFilter = resultTag.length > 0 ? resultTag : recettes;
+        searchBanner(document.getElementById("searchBanner").value, recettesFilter);
     }else if(searchBannerElement.value.length < 3) {
         affichageRecette(recettes)
+        dropdownRecette(recettes)
+        resultBanner = [];
     }
 })
 
@@ -181,7 +187,9 @@ function searchBanner(value, recettes) {
             }
         }
     }
-    affichageRecette(result)
+    resultBanner = result;
+    affichageRecette(result);
+    dropdownRecette(result);
 }
 
 // creation de la liste pour chaque dropdown et au clic sur un li la valeur est ajouté dans un tableau sauf si elle y est deja pour ensuite apl la fonction pour créer les tags avec la valeur presente dans ce tableau
@@ -291,11 +299,13 @@ function tagUstensils(value) {
 // permet d'actualiser les recettes selon les tags selectioné
 function refreshTag() {
     const data = [];
-    for (let j = 0; j < recettes.length; j++) {
+    const recetteFilter = resultBanner.length > 0 ? resultBanner : recettes;
+    console.log(recetteFilter, "recetteFilter")
+    for (let j = 0; j < recetteFilter.length; j++) {
         let tagInclude = true;
         tagIngredientsSelected.forEach(tag => {
             const recetteIngredients = []
-            recettes[j].ingredients.forEach(ingredient => {
+            recetteFilter[j].ingredients.forEach(ingredient => {
                 recetteIngredients.push(ingredient.ingredient.toLowerCase());
             })
             if(!recetteIngredients.includes(tag)) {
@@ -304,7 +314,7 @@ function refreshTag() {
         })
         tagUstensilSelected.forEach(tag => {
             const recetteUstensils = []
-            recettes[j].ustensils.forEach(ustensils => {
+            recetteFilter[j].ustensils.forEach(ustensils => {
                 recetteUstensils.push(ustensils.toLowerCase());
             })
             if(!recetteUstensils.includes(tag)) {
@@ -312,14 +322,19 @@ function refreshTag() {
             }
         })
         tagAppareilSelected.forEach(tag => {
-            if(recettes[j].appliance.toLowerCase() !== tag) {
+            if(recetteFilter[j].appliance.toLowerCase() !== tag) {
                 tagInclude = false;
             }
         })
         
         if(tagInclude) {
-            data.push(recettes[j]);
+            data.push(recetteFilter[j]);
         }
+    }
+    if (tagIngredientsSelected.length === 0 && tagUstensilSelected.length === 0 && tagAppareilSelected.length === 0) {
+        resultTag = [];
+    }else {
+        resultTag = data;
     }
     affichageRecette(data)
     dropdownRecette(data);
