@@ -187,10 +187,8 @@ function searchDropdown(value, type) {
 function searchBanner(value, recettesTag) {
     let result = [];
     for (let i = 0; i < recettesTag.length; i++) {
-        for (const recette of recettesTag[i]) {
-            if (recette.toLocaleLowerCase().includes(value.toLowerCase())) {
-                result.push(recettes[i])
-            }
+        if (recettesTag[i].find(s => s.includes(value.toLowerCase()))) {
+            result.push(recettes[i])
         }
     }
     resultBanner = result;
@@ -341,10 +339,13 @@ function refreshTag() {
     }else {
         for (const donnee of data) {
             let recetteFilterTag = [];
-            recetteFilterTag.push(donnee.name);
-            recetteFilterTag.push(donnee.appliance);
+            recetteFilterTag.push(donnee.name.toLocaleLowerCase());
+            recetteFilterTag.push(donnee.appliance.toLocaleLowerCase());
             for (const ingredient of donnee.ingredients) {
-                recetteFilterTag.push(ingredient.ingredient)
+                recetteFilterTag.push(ingredient.ingredient.toLocaleLowerCase())
+            }
+            for (const ustensil of donnee.ustensils) {
+                recetteFilterTag.push(ustensil.toLocaleLowerCase());
             }
             resultTag.push(recetteFilterTag)
         }
