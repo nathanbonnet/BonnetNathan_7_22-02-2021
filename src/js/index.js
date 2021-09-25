@@ -12,6 +12,8 @@ const tagUstensilSelected = [];
 let resultBanner = [];
 let resultTag = [];
 
+let exportData = [];
+
 let listeIngredient = [];
 let listeUstensils = [];
 let listAppareil = [];
@@ -97,14 +99,21 @@ affichageRecette(recettes)
 
 // declenche la fonction searchBanner a partir de 3 lettres
 const searchBannerElement = document.getElementById("searchBanner");
-
 searchBannerElement.addEventListener('keyup', (e) => {
+    console.log(resultTag);
     if(searchBannerElement.value.length >= 3) {
         const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
         searchBanner(document.getElementById("searchBanner").value, recettesFilter);
     }else if(searchBannerElement.value.length < 3) {
-        affichageRecette(recettes)
-        dropdownRecette(recettes)
+        if (exportData.length > 0) {
+            exportData.forEach(data => {
+                affichageRecette(data);
+                dropdownRecette(data);
+            })
+        }else {
+            affichageRecette(recettes);
+            dropdownRecette(recettes);
+        }
         resultBanner = [];
     }
 })
@@ -185,6 +194,7 @@ function searchDropdown(value, type) {
 
 // permet de verifier si la valeur est egal a une des recettes
 function searchBanner(value, recettesTag) {
+    console.log(recettesTag)
     let result = [];
     for (let i = 0; i < recettesTag.length; i++) {
         if (recettesTag[i].find(s => s.includes(value.toLowerCase()))) {
@@ -337,8 +347,11 @@ function refreshTag() {
     if (tagIngredientsSelected.length === 0 && tagUstensilSelected.length === 0 && tagAppareilSelected.length === 0) {
         resultTag = [];
     }else {
+        let recetteFilterTag = [];
+        if (resultTag) {
+            resultTag = [];
+        }
         for (const donnee of data) {
-            let recetteFilterTag = [];
             recetteFilterTag.push(donnee.name.toLocaleLowerCase());
             recetteFilterTag.push(donnee.appliance.toLocaleLowerCase());
             for (const ingredient of donnee.ingredients) {
@@ -347,9 +360,10 @@ function refreshTag() {
             for (const ustensil of donnee.ustensils) {
                 recetteFilterTag.push(ustensil.toLocaleLowerCase());
             }
-            resultTag.push(recetteFilterTag)
         }
+        resultTag.push(recetteFilterTag)
     }
     affichageRecette(data)
     dropdownRecette(data);
+    exportData.push(data)
 }
