@@ -12,6 +12,8 @@ const tagUstensilSelected = [];
 let resultBanner = [];
 let resultTag = [];
 
+let exportData = [];
+
 let listeIngredient = [];
 let listeUstensils = [];
 let listAppareil = [];
@@ -85,8 +87,15 @@ searchBannerElement.addEventListener('keyup', (e) => {
         const recettesFilter = resultTag.length > 0 ? resultTag : recettes;
         searchBanner(document.getElementById("searchBanner").value, recettesFilter);
     }else if(searchBannerElement.value.length < 3) {
-        affichageRecette(recettes)
-        dropdownRecette(recettes)
+        if (exportData.length > 0) {
+            exportData.forEach(data => {
+                affichageRecette(data);
+                dropdownRecette(data);
+            })
+        }else {
+            affichageRecette(recettes);
+            dropdownRecette(recettes);
+        }
         resultBanner = [];
     }
 })
@@ -338,4 +347,5 @@ function refreshTag() {
     }
     affichageRecette(data)
     dropdownRecette(data);
+    exportData.push(data);
 }
