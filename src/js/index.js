@@ -199,6 +199,7 @@ function searchBanner(value, recettesTag, data) {
     for (const recetteFilter of data) {
         recette = recetteFilter
     }
+    console.log(recettesTag);
     for (let i = 0; i < recettesTag.length; i++) {
         if (recettesTag[i].find(s => s.includes(value.toLowerCase()))) {
             result.push(recette[i])
@@ -265,8 +266,7 @@ function tagIngredients(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagIngredientsSelected.indexOf(value);
-        tagIngredientsSelected.splice(position, position + 1);
-        console.log(position, position + 1)
+        tagIngredientsSelected.splice(position, 1);
         refreshTag()
         const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
         const recettesTag = exportData.length > 0 ? exportData : recettes;
@@ -290,7 +290,7 @@ function tagAppareil(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagAppareilSelected.indexOf(value);
-        tagAppareilSelected.splice(position, position + 1)
+        tagAppareilSelected.splice(position, 1)
         refreshTag()
         const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
         const recettesTag = exportData.length > 0 ? exportData : recettes;
@@ -314,7 +314,7 @@ function tagUstensils(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagUstensilSelected.indexOf(value);
-        tagUstensilSelected.splice(position, position + 1)
+        tagUstensilSelected.splice(position, 1)
         refreshTag()
         const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
         const recettesTag = exportData.length > 0 ? exportData : recettes;
