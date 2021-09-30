@@ -9,7 +9,6 @@ const tagIngredientsSelected = [];
 const tagAppareilSelected = [];
 const tagUstensilSelected = [];
 
-let resultBanner = [];
 let resultTag = [];
 
 let exportData = [];
@@ -96,13 +95,11 @@ searchBannerElement.addEventListener('keyup', (e) => {
             affichageRecette(recettes);
             dropdownRecette(recettes);
         }
-        resultBanner = [];
     }
 })
 
 // permet d'ajouter les elements si il ne sont pas deja dans le dropdown
 function dropdownRecette(recettes) {
-    console.log(recettes, "test")
     listeIngredient = [];
     listeUstensils = [];
     listAppareil = [];
@@ -179,24 +176,31 @@ function searchBanner(value, recettes) {
     let result = [];
     for (const recette of recettes) {
         if(recette.name.toLowerCase().includes(value.toLowerCase())) {
-            result.push(recette);
+            if(!result.includes(recette)) {
+                result.push(recette);
+            }
         }
         if(recette.appliance.toLowerCase().includes(value.toLowerCase())) {
-            result.push(recette);
+            if(!result.includes(recette)) {
+                result.push(recette);
+            }
         }
         for (const ingredient of recette.ingredients) {
             if(ingredient.ingredient.toLowerCase().includes(value.toLowerCase())) {
-                result.push(recette);
+                if(!result.includes(recette)) {
+                    result.push(recette);
+                }
             }
         }
     
         for (const ustensil of recette.ustensils) {
             if(ustensil.toLowerCase().includes(value.toLowerCase())) {
-                result.push(recette);
+                if(!result.includes(recette)) {
+                    result.push(recette);
+                }
             }
         }
     }
-    resultBanner = result;
     affichageRecette(result);
     dropdownRecette(result);
 }
@@ -237,6 +241,8 @@ function dropdown(list, dropdown) {
             }
 
             refreshTag()
+            const recettesFilter = resultTag.length > 0 ? resultTag : recettes;
+            searchBanner(searchBannerElement.value, recettesFilter);
         })
     }
 }
@@ -258,8 +264,10 @@ function tagIngredients(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagIngredientsSelected.indexOf(value);
-        tagIngredientsSelected.splice(position)
+        tagIngredientsSelected.splice(position, position + 1)
         refreshTag()
+        const recettesFilter = resultTag.length > 0 ? resultTag : recettes;
+        searchBanner(searchBannerElement.value, recettesFilter);
     })
 }
 
@@ -279,8 +287,10 @@ function tagAppareil(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagAppareilSelected.indexOf(value);
-        tagAppareilSelected.splice(position)
+        tagAppareilSelected.splice(position, position + 1)
         refreshTag()
+        const recettesFilter = resultTag.length > 0 ? resultTag : recettes;
+        searchBanner(searchBannerElement.value, recettesFilter);
     })
 }
 
@@ -300,16 +310,17 @@ function tagUstensils(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagUstensilSelected.indexOf(value);
-        tagUstensilSelected.splice(position)
+        tagUstensilSelected.splice(position, position + 1)
         refreshTag()
+        const recettesFilter = resultTag.length > 0 ? resultTag : recettes;
+        searchBanner(searchBannerElement.value, recettesFilter);
     })
 }
 
 // permet d'actualiser les recettes selon les tags selectioné
 function refreshTag() {
     const data = [];
-    const recetteFilter = resultBanner.length > 0 ? resultBanner : recettes;
-    console.log(recetteFilter, "recetteFilter")
+    const recetteFilter = recettes;
     for (let j = 0; j < recetteFilter.length; j++) {
         let tagInclude = true;
         tagIngredientsSelected.forEach(tag => {
@@ -347,5 +358,6 @@ function refreshTag() {
     }
     affichageRecette(data)
     dropdownRecette(data);
+    exportData = [];
     exportData.push(data);
 }
