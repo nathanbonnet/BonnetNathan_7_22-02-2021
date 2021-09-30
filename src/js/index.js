@@ -30,6 +30,7 @@ for (const recette of recettes) {
     for (const ingredient of recette.ingredients) {
         list.push(ingredient.ingredient.toLocaleLowerCase())
     }
+    //changer l'applicane et le remplacer par la description et supprimer ustensils
     list.push(recette.appliance.toLocaleLowerCase())
     for (const ustensil of recette.ustensils) {
         list.push(ustensil.toLocaleLowerCase());
@@ -37,8 +38,6 @@ for (const recette of recettes) {
     list.push(recette.name.toLocaleLowerCase());
     allIncluded.push(list);
 }
-
-console.log(allIncluded)
 
 // creation de chaque bloc recette
 function affichageRecette(recettes) {
@@ -100,10 +99,10 @@ affichageRecette(recettes)
 // declenche la fonction searchBanner a partir de 3 lettres
 const searchBannerElement = document.getElementById("searchBanner");
 searchBannerElement.addEventListener('keyup', (e) => {
-    console.log(resultTag);
     if(searchBannerElement.value.length >= 3) {
         const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
-        searchBanner(document.getElementById("searchBanner").value, recettesFilter);
+        const recettesTag = exportData.length > 0 ? exportData : recettes;
+        searchBanner(searchBannerElement.value, recettesFilter, recettesTag);
     }else if(searchBannerElement.value.length < 3) {
         if (exportData.length > 0) {
             exportData.forEach(data => {
@@ -115,6 +114,7 @@ searchBannerElement.addEventListener('keyup', (e) => {
             dropdownRecette(recettes);
         }
         resultBanner = [];
+        refreshTag()
     }
 })
 
@@ -193,20 +193,22 @@ function searchDropdown(value, type) {
 }
 
 // permet de verifier si la valeur est egal a une des recettes
-function searchBanner(value, recettesTag) {
-    console.log(recettesTag)
+function searchBanner(value, recettesTag, data) {
     let result = [];
+    let recette;
+    for (const recetteFilter of data) {
+        recette = recetteFilter
+    }
     for (let i = 0; i < recettesTag.length; i++) {
         if (recettesTag[i].find(s => s.includes(value.toLowerCase()))) {
-            result.push(recettes[i])
+            result.push(recette[i])
         }
     }
-    resultBanner = result;
     affichageRecette(result);
     dropdownRecette(result);
 }
 
-// creation de la liste pour chaque dropdown et au clic sur un li la valeur est ajouté dans un tableau sauf si elle y est deja pour ensuite apl la fonction pour créer les tags avec la valeur presente dans ce tableau
+// creation de la liste pour chaque dropdown et au clic sur un li la valeur est ajouté dans un tableau sauf si elle y est deja, pour ensuite apl la fonction pour créer les tags avec la valeur presente dans ce tableau
 function dropdown(list, dropdown) {
     dropdown.innerHTML = "";
     let ul;
@@ -263,8 +265,12 @@ function tagIngredients(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagIngredientsSelected.indexOf(value);
-        tagIngredientsSelected.splice(position)
+        tagIngredientsSelected.splice(position, position + 1);
+        console.log(position, position + 1)
         refreshTag()
+        const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
+        const recettesTag = exportData.length > 0 ? exportData : recettes;
+        searchBanner(searchBannerElement.value, recettesFilter, recettesTag);
     })
 }
 
@@ -284,8 +290,11 @@ function tagAppareil(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagAppareilSelected.indexOf(value);
-        tagAppareilSelected.splice(position)
+        tagAppareilSelected.splice(position, position + 1)
         refreshTag()
+        const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
+        const recettesTag = exportData.length > 0 ? exportData : recettes;
+        searchBanner(searchBannerElement.value, recettesFilter, recettesTag);
     })
 }
 
@@ -305,8 +314,11 @@ function tagUstensils(value) {
     close.addEventListener("click", () => {
         bloc.setAttribute("class", "d-none");
         let position = tagUstensilSelected.indexOf(value);
-        tagUstensilSelected.splice(position)
+        tagUstensilSelected.splice(position, position + 1)
         refreshTag()
+        const recettesFilter = resultTag.length > 0 ? resultTag : allIncluded;
+        const recettesTag = exportData.length > 0 ? exportData : recettes;
+        searchBanner(searchBannerElement.value, recettesFilter, recettesTag);
     })
 }
 
@@ -347,11 +359,11 @@ function refreshTag() {
     if (tagIngredientsSelected.length === 0 && tagUstensilSelected.length === 0 && tagAppareilSelected.length === 0) {
         resultTag = [];
     }else {
-        let recetteFilterTag = [];
         if (resultTag) {
             resultTag = [];
         }
         for (const donnee of data) {
+            let recetteFilterTag = [];
             recetteFilterTag.push(donnee.name.toLocaleLowerCase());
             recetteFilterTag.push(donnee.appliance.toLocaleLowerCase());
             for (const ingredient of donnee.ingredients) {
@@ -360,10 +372,11 @@ function refreshTag() {
             for (const ustensil of donnee.ustensils) {
                 recetteFilterTag.push(ustensil.toLocaleLowerCase());
             }
+            resultTag.push(recetteFilterTag)
         }
-        resultTag.push(recetteFilterTag)
     }
     affichageRecette(data)
     dropdownRecette(data);
+    exportData = [];
     exportData.push(data)
 }
