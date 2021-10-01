@@ -245,6 +245,9 @@ function dropdown(list, dropdown) {
             }
 
             refreshTag()
+            const recettesFilter = resultTag.length > 0 ? resultTag : recettes;
+            const recettesTag = exportData.length > 0 ? exportData : recettes;
+            searchBanner(searchBannerElement.value, recettesFilter, recettesTag);
         })
     }
 }
