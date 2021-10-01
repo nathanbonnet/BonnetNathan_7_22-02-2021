@@ -9,7 +9,6 @@ const tagIngredientsSelected = [];
 const tagAppareilSelected = [];
 const tagUstensilSelected = [];
 
-let resultBanner = [];
 let resultTag = [];
 
 let exportData = [];
@@ -113,8 +112,6 @@ searchBannerElement.addEventListener('keyup', (e) => {
             affichageRecette(recettes);
             dropdownRecette(recettes);
         }
-        resultBanner = [];
-        refreshTag()
     }
 })
 
@@ -328,7 +325,7 @@ function tagUstensils(value) {
 // permet d'actualiser les recettes et le contenu des dropdowns selon les tags selectioné
 function refreshTag() {
     const data = [];
-    const recetteFilter = resultBanner.length > 0 ? resultBanner : recettes;
+    const recetteFilter = recettes;
     for (let j = 0; j < recetteFilter.length; j++) {
         let tagInclude = true;
         tagIngredientsSelected.forEach(tag => {
