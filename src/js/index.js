@@ -203,6 +203,9 @@ function searchBanner(value, recettes) {
     }
     affichageRecette(result);
     dropdownRecette(result);
+    if (result.length <= 0) {
+        document.getElementById('les_recettes').innerHTML = "aucune recette n'a été trouvée";
+    }
 }
 
 // creation de la liste pour chaque dropdown et au clic sur un li la valeur est ajouté dans un tableau sauf si elle y est deja pour ensuite apl la fonction pour créer les tags avec la valeur presente dans ce tableau
